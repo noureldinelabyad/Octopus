@@ -13,9 +13,17 @@ export const Logo = () =>{
         <div className="hidden md:flex itemes-cente gap-x-2">
             <Image 
             src="/octoput-light.png" 
-            height="50"
-            width="50"
+            height="40"
+            width="40"
             alt="Logo"
+            className="dark:hidden"
+            />
+            <Image 
+            src="/octoput-dark.png" 
+            height="40"
+            width="40"
+            alt="Logo"
+            className="hidden dark:block"
             />
             <p className={cn("font-semibold", font.className)}>
                 Octopus
