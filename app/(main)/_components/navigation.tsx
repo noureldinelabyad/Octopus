@@ -6,6 +6,7 @@ import { tree } from "next/dist/build/templates/app-page";
 import { usePathname } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts"; // easer to use this package to resize side sidebar ondrag than tailwind
+import { UserItem } from "./user-item";
 
 export const Navigation = () => {
   const Pathname = usePathname(); // this for when user cklick on an itime it collapes the sidebar
@@ -112,7 +113,7 @@ export const Navigation = () => {
           <ChevronsLeft className="h-6 w-6" />
         </div>
         <div>
-          <p>Action items</p>
+            <UserItem/>
         </div>
         <div className="mt-4">
           <p>Documents</p>
