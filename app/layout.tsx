@@ -1,3 +1,4 @@
+import { Toaster } from "sonner";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -43,6 +44,7 @@ export default function RootLayout({
             disableTransitionOnChange
             storageKey="octopus-theme"
           >
+            <Toaster position="bottom-center"/>
             {children}
           </ThemeProvider>
         </ConvexClientProvider>
