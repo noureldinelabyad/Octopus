@@ -1,20 +1,29 @@
 "use client";
-import { ChevronsLeft, MenuIcon } from "lucide-react";
+import {
+     ChevronsLeft,
+     MenuIcon,
+     PlusCircle,
+      Search,
+      Settings 
+    } from "lucide-react";
 import { tree } from "next/dist/build/templates/app-page";
 import { usePathname } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts"; // easer to use this package to resize side sidebar ondrag than tailwind
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
+import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 import { api } from "@/convex/_generated/api";
 
 import { UserItem } from "./user-item";
+import { Item } from "./item";
 
 export const Navigation = () => {
   const Pathname = usePathname(); // this for when user cklick on an itime it collapes the sidebar
   const isMobile = useMediaQuery("(max-width: 768px)");
   const documents = useQuery(api.documents.get);                // get api function to show the documents imported api convex
+  const create = useMutation(api.documents.create);             // create function  to add new item in db ( + new page )
 
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<ElementRef<"aside">>(null);
@@ -96,6 +105,17 @@ export const Navigation = () => {
         }
     }
 
+    
+    const handelCreate = ()=> {
+      const promise = create({ title: "Untitled" });
+
+      toast.promise(promise, {
+        loading: "Creating A NEW  Note...",
+        success: "Note Created Successfully!",
+        error: "Error Creating The Note!"
+      });
+    };
+
   return (
     <>
       <aside
@@ -114,14 +134,30 @@ export const Navigation = () => {
             isMobile && "opac100"
             )}
         >
+
           <ChevronsLeft className="h-6 w-6" />
         </div>
         <div>
             <UserItem/>
-        </div>
+            <Item
+             label="Search"
+             icon={Search}
+             isSearch
+             onClick={() => {}}
+            />
+            <Item
+             label="Settings"
+             icon={Settings}
+             onClick={() => {}}
+            />
+             <Item onClick={handelCreate}
+               label="New page" 
+               icon={PlusCircle} 
+              />
+          </div>
         <div className="mt-4">
             {documents?.map((document) => (
-              <p key={document.id}>
+              <p key={document._id}>
                 {document.title}
               </p>
             ))}
