@@ -240,3 +240,70 @@ export const getSearch = query({
     return  documents;
   }
 });
+
+export const getById = query({
+  args: { documentId: v.id("documents") },
+  handler: async (ctx, args) => {
+    const identity = await  ctx.auth.getUserIdentity();      // we will not check if the user authored or not becouse we are using this for published docs too!
+
+    const document = await ctx.db.get(args.documentId);  // fetch the document 
+
+    if ( !document ) {
+      throw new Error ("Not found")
+    }
+
+    if (document.isPublished && !document.isArchived) {  // check if we can show th doc to the user, even if loged in or not becouse its published and not archived or deleted 
+      return document;
+    }
+  
+    if (!identity) {
+      throw new Error ("Not authenticated");
+    }
+
+    const userId  = identity.subject;
+
+    if (document.userId !== userId) {
+      throw new Error ("Unathorized to view this")
+    }
+
+    return document;
+  }
+});
+
+export const update = mutation({
+  args: {
+    id: v.id("documents"),
+    title: v.optional(v.string()),
+    content: v.optional(v.string()),
+    coverImage: v.optional(v.string()),
+    icon: v.optional(v.string()),
+    isPublished:  v.optional(v.boolean())
+  },
+  handler: async (ctx,args) => {
+    const idendity = await ctx.auth.getUserIdentity();
+
+    if (!idendity) {
+      throw new Error ("Unauthenticated");
+    }
+
+    const userId = idendity.subject;
+
+    const { id, ...rest } = args;  // destructring evrything in the argumnt (upadate) exept the id becouse we never send the id to be updated
+
+    const existingDocument = await ctx.db.get(args.id);
+
+    if (!existingDocument){
+      throw new Error ("Not found")
+    }
+
+    if  (existingDocument.userId != userId ) {
+      throw new Error ("Unauthorized")
+    }
+
+    const document = await ctx.db.patch(args.id, {
+      ...rest,
+    });
+
+    return document;
+  },
+});

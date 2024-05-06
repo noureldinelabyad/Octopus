@@ -37,7 +37,7 @@ export const DocumentList = ({
     });
 
     const onRedirect = (documentId: string) => {
-        router.push(`/documents/$documentId`);
+        router.push(`/documents/${documentId}`);
     };
 
     if ( documents === undefined) {   // in convex if documnets undified means its loading in loading state but if its truly faild means its null 
