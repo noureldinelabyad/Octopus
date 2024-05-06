@@ -114,7 +114,7 @@ export const Item = ({
                 <div
                  role="button"
                  className="h-full rounded-sm hover:bg-neutral-300
-                 dark:bg-neutral-600 mr-1"
+                 dark:hover:bg-neutral-600 mr-1"
                  onClick={handelExpand}           // here  we add the handel expand function to show  the sub items when clicked. or {No pages inside}
                 >
                   <ChivronIcon      
