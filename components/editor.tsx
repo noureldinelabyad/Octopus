@@ -1,3 +1,5 @@
+"use client"
+
 import { useTheme } from "next-themes";
 import { 
     BlockNoteEditor,
@@ -9,33 +11,50 @@ import {
 } from "@blocknote/react"
 import "@blocknote/core/style.css";
 
+import { useEdgeStore } from "@/lib/edgestore";
+
 interface EditorProps {
     onChange: (value: string) => void;
     initialContent?: string;
     editable?: boolean;
 }
 
-export const Editor = ({
+const Editor = ({
     onChange,
     initialContent,
-    editable
+    editable,
 }: EditorProps) => {
     const { resolvedTheme } = useTheme();
+    const {edgestore} = useEdgeStore();
+
+    const handelUpload = async (file: File) => {
+        const response = await edgestore.publicFiles.upload({
+            file
+        });
+
+        return response.url;
+    }
 
     const editor: BlockNoteEditor = useBlockNote({
         editable,
-        initialContent: initialContent
+        initialContent:
+             initialContent
             ? JSON.parse(initialContent) as PartialBlock[]
             : undefined,
         onEditorContentChange: (editor) => {
             onChange(JSON.stringify(editor.topLevelBlocks, null, 2));
         },
+        uploadFile: handelUpload
     });
 
     return (
-        <BlockNoteView
-            editor={editor }
-            theme={resolvedTheme === "dark" ? "dark" : "light"}
-        />
+        <div>
+            <BlockNoteView
+                editor={editor }
+                theme={resolvedTheme === "dark" ? "dark" : "light"}
+            />
+        </div>
     )
 }
+
+export default Editor;

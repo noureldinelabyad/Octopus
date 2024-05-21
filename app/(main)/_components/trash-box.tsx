@@ -11,24 +11,35 @@ import { Id } from "@/convex/_generated/dataModel";
 import { Spinner } from "@/components/spinner";
 import { Input } from "@/components/ui/input";
 import { ConfirmModal } from "@/components/modals/confirm-modal";
+import { useDeleteCoverImage } from "@/hooks/remove-cover-image";
 
-export const TrashBox = () => {
+//interface TrashBoxProps{
+    //documentId: Id<"documents">;
+//};
+
+export const TrashBox = (
+   // documentId,
+) => {
+    const documentId = useParams().documentId as Id<"documents">;
+    // const document = documentId ? useQuery(api.documents.getById, {
+    //     documentId
+    // }) : null;
+ 
     const router = useRouter();
     const params = useParams();
     const documents = useQuery(api.documents.getTrash);
     const restore = useMutation(api.documents.restore);
     const remove = useMutation(api.documents.remove);
-
+    
     const [search, setSearch] = useState("");
 
+    //const urlToDelete = document?.coverImage;
+    //const deleteCoverImage = useDeleteCoverImage(urlToDelete ); // Use the utility function
+    
     const filteredDocuments = documents?.filter((document) => {              // to filter out the documents using the search state 
         return document.title.toLowerCase().includes(search.toLowerCase());
     });
-
-    const onClick = (documentId: string) => {
-        router.push(`/documents/${documentId}`);
-    };
-
+    
     const onRestore = (
         event : React.MouseEvent<HTMLDivElement, MouseEvent>,
         documentId : Id<"documents">
@@ -43,9 +54,21 @@ export const TrashBox = () => {
         });
     };
 
-    const onRemove = (
+    const onClick = (documentId: string) => {
+        router.push(`/documents/${documentId}`);
+    };
+
+
+    const onRemove = async (
         documentId : Id<"documents">
     ) => {
+        //console.log("url is",urlToDelete);
+  
+        // await deleteCoverImage();
+        
+        // if (urlToDelete) {
+        // }
+
         const promise = remove({  id: documentId });
 
         toast.promise(promise, {
@@ -55,7 +78,6 @@ export const TrashBox = () => {
         });
 
         if (params.documentId == documentId) {
-            router.push("/documents");           // redirecting away  from the current page after deleting it
         }
     };
 
@@ -102,14 +124,14 @@ export const TrashBox = () => {
                             >
                                 <Undo className="h-4 w-4 text-muted-foreground" />
                             </div>
-                            <ConfirmModal onConfirm={() => onRemove(document._id)}>
+                            {/* <ConfirmModal onConfirm={() => onRemove(document._id)}>
                                 <div
                                 role="button"
                                 className="rounded-sm p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600"
                                 >
                                  <Trash className="h-4 w-4 text-muted-foreground"/>
                                 </div>
-                            </ConfirmModal>
+                            </ConfirmModal> */}
                         </div>
                     </div>
                 ))}

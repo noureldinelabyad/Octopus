@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { toast } from "sonner";
 
 import { Id } from "@/convex/_generated/dataModel";
@@ -9,28 +9,48 @@ import { api } from "@/convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import { ConfirmModal } from "@/components/modals/confirm-modal";
 
+import { useDeleteCoverImage } from "@/hooks/remove-cover-image";
+import { useEdgeStore } from "@/lib/edgestore";
+
+
 interface BannerPops {
     documentId: Id<"documents">;
+    url: string;
 };
 
 export const Banner = ({
-    documentId
+    documentId,
+    url
 }: BannerPops) => {
+     const document = useQuery(api.documents.getById, {
+        documentId
+    });
+    
     const router = useRouter();
-
     const remove = useMutation(api.documents.remove);
     const restore = useMutation(api.documents.restore);
+    
+    const urlToDelete = document?.coverImage;  
+    const deleteCoverImage = useDeleteCoverImage(); // Use the utility function
 
-    const onRemove = () => {
-        const promise = remove({ id: documentId });
-            
+    const onRemove = async () => {
+
+        if(urlToDelete ){
+           await deleteCoverImage?.(urlToDelete);
+        } else {
+            console.log("No cover image to delete");
+        }
+
+        //console.log("url is",urlToDelete);
+
+        const promise = remove({ id: documentId });  // Remove the document from the database
+
         toast.promise(promise, {
             loading: "Deleting note...",
             success: "Note deleted!",
             error: "Failed to delete note."
         });
-
-        router.push("/documents");
+        router.push("/documents");   // redirect to documents page
     };
 
     const onRestore = () => {

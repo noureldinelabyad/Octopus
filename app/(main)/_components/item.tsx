@@ -61,7 +61,8 @@ export const Item = ({
     ) => {
         event.stopPropagation();
       if (!id) return;     // if there is no id break the all function before it starts
-      const promise = archive({ id });   // call the mutation and send the id
+      const promise = archive({ id })   // call the mutation and send the id
+        .then(() => router.push("/documents"));  // rdedrited to the documents page after the promise is resolved
 
       toast.promise(promise, {
         loading: "Moving to trash...",
@@ -87,7 +88,7 @@ export const Item = ({
             if(!expanded) {
                 onExpand?.();
             }
-            // router.push(`/documents/${documentId}`);
+            router.push(`/documents/${documentId}`);
          });
 
          toast.promise(promise, {
@@ -128,7 +129,7 @@ export const Item = ({
                 </div>
             ): (
                 <Icon 
-                className="shrink-0 h-[18px] mr-2 text-muted-foreground"
+                className="shrink-0 h-[18px] w-[18px] mr-2 text-muted-foreground"
                 />     
             )}
             <span className="truncate">

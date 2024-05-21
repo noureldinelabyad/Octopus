@@ -14,11 +14,12 @@ import Link from "next/link";
 
 export const Navbar  = () => {
     const { isAuthenticated, isLoading } = useConvexAuth(); // here we  get the user info and check if it's authenticated or not.
-    const scrolled = useScrollTop();
+    const scrollDirection = useScrollTop();
     return(
         <div className={cn(
             "z-50 bg-background fixed top-0 flex items-center w-full p-6 dark:bg-[#1F1F1F]",
-            scrolled && "border-b shadow-sm"  // if we scroled away from the nave we add border btoma nd sahdow small (dynamic class name)
+            scrollDirection === 'down' && "border-b shadow-sm"
+            // if we scroled away from the nave we add border btoma nd sahdow small (dynamic class name)
         )}>
             <Logo/>
             <div className="md:ml-auto md:justify-end

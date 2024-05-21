@@ -2,6 +2,15 @@ import { v } from "convex/values";
 
 import { mutation, query } from "./_generated/server";
 import { Doc, Id } from "./_generated/dataModel";
+import { useQuery } from "convex/react";
+//import { useDeleteCoverImage } from "@/hooks/remove-cover-image";
+
+import { deleteCoverImageUtil } from "@/hooks/newremove-cover-image"; // Import the utility function
+import { useEdgeStore } from "@/lib/edgestore";
+import { EdgeStoreType } from "@/lib/edgestore";
+
+
+
 
 export const archive = mutation({
   args: { id: v.id("documents") }, // pass the documnent id
@@ -32,8 +41,10 @@ export const archive = mutation({
         )
         .collect();
 
+
       for (const child of children) {
         // for loop to repeate the the same above with every  child of the document, and we dont use foreach or map becouse we are using a promise inside of that like asyne await
+
         await ctx.db.patch(child._id, {
           isArchived: true,
         });
@@ -191,10 +202,12 @@ export const restore = mutation({
   }
 });
 
+
 export const remove = mutation({
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
+    //const deleteCoverImage = useDeleteCoverImage(); // Use the utility function
 
     if (!identity) {
       throw new Error("Not authenticated");
@@ -211,7 +224,36 @@ export const remove = mutation({
     if (existingDocument.userId !== userId) {
       throw new Error("NOT  AUTHORIZED");
     }
+    const { edgestore } = useEdgeStore(); // Ensure you can access edgestore here
+    
+    const recursiveDelete = async (documentId: Id<"documents">) =>{
 
+
+      const children = await ctx.db
+      .query("documents")
+      .withIndex("by_user_parent", (q)=>(
+        q
+          .eq("userId",userId)
+          .eq("parentDocument",documentId)
+      ))
+      .collect();
+      
+      for (const child of children){
+        const urlToDelete = child.coverImage;  
+
+        await ctx.db.patch(child._id,{
+         isArchived:true,
+        });
+
+        await deleteCoverImageUtil(urlToDelete);
+        console.log("urlrec", urlToDelete);
+       await recursiveDelete(child._id);
+        await ctx.db.delete(child._id);
+      }
+   // await deleteCoverImage?.(urlToDelete); // Delete cover image of the child document
+    }
+
+    await recursiveDelete(args.id);
     const document = await ctx.db.delete(args.id);
 
     return document;
@@ -365,3 +407,31 @@ export const removeCoverImage = mutation ({
     return document;
   }
 });
+
+export const getParentPath = query({
+  args: {
+     documentId: v.id("documents")
+     },
+     
+  handler: async (ctx, args) => {
+    let path = [];
+    let currentDocumentId: Id<"documents"> | undefined = args.documentId;
+
+    while (currentDocumentId) {
+      const document: Doc<"documents"> | null | undefined = await ctx.db.get(currentDocumentId);
+      if (!document) break; // Exit if the document is not found (null or undefined)
+      
+      let titleWithIcon = document.icon ? `${document.icon} ${document.title}` : document.title;
+      path.unshift(titleWithIcon); // Add the formatted title and icon to the start of the path array
+      
+      currentDocumentId = document.parentDocument; // Move to the next parent
+    }
+
+    return path.join(' / '); // Join all titles with slashes and spaces to form the path
+  }
+});
+
+
+
+
+

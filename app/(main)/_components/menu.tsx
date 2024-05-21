@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/clerk-react";
 import { useMutation } from "convex/react";
 import { toast } from "sonner";
-import { MoreHorizontal, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 
 import { Id } from "@/convex/_generated/dataModel";
 import {
@@ -45,8 +45,9 @@ export const Menu = ({
     return(
        <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button size="sm" variant="ghost">
-                 <MoreHorizontal className="h-4 w-4"/>              
+                <Button size="icon" variant="ghost">
+                 {/* <MoreHorizontal className="h-4 w-4"/> */}
+                 <img src="/menu-icon.png" alt="Menu" className="h-8 w-8" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent 

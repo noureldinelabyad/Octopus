@@ -22,14 +22,19 @@ export const UserItem = () => {
     return (
        <DropdownMenu>
         <DropdownMenuTrigger asChild>
-            <div role="button" className="flex items-center text-sm p-3 w-full hover:bg-primary/5">
+            <div role="button" className="flex items-center justify-between my-3 text-sm p-3 w-full hover:bg-primary/5">
                 <div className="gap-x-2 flex items-center max-w-[150px]">
-                    <Avatar className="h-5 w-5">
+                    <Avatar className="h-12 w-12">
                         <AvatarImage src={user?.imageUrl}/>
                     </Avatar>
-                    <span className="text-start font-medium line-clamp-1">
-                        {user?.fullName}&apos;s Octopus
-                    </span>
+                    <div className="text-xs text-muted-foreground line-clamp-1">
+                        <span className="text-start font-medium line-clamp-1">
+                            {user?.firstName}&apos;s Octopus
+                        </span>
+                        <span>
+                            {user?.emailAddresses[0].emailAddress}
+                        </span>
+                    </div>
                 </div>
                 <ChevronsLeftRightIcon className="rotate-90 ml-2 text-muted-foreground h-4 w-4"/>
             </div>

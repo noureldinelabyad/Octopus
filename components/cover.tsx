@@ -32,11 +32,14 @@ export const Cover = ({
             await edgestore.publicFiles.delete({    // to delete the url as in edgestroe documentions (added async await so deletng runs after removeCoverImage is finshed!)
                 url: url,
             })
+         console.log("cover deleted", url);
         }
-        removeCoverImage({
+        
+        removeCoverImage({  // mark it in db no cover image , to be undefiend 
             id: params.documentId as Id<"documents">
         });
     };
+    
 
     return (
         <div className={cn(
@@ -49,11 +52,12 @@ export const Cover = ({
                  src={url}
                  fill
                  alt="cover"
+                 priority
                  className="object-cover"
                 />
             )}
             {url && !preview && (
-                <div className="opacity-0 group-hover:opacity-100 absolute bottom-5 right-5 flex items-center gap-x-2">
+                <div className="opacity-0 group-hover:opacity-100 absolute bottom-5 right-5 flex items-center gap-x-2 z-0">
                   <Button
                    onClick={() => coverImage.onReplace(url)}
                    className="text-muted-foreground text-xs"
@@ -71,7 +75,7 @@ export const Cover = ({
                   >
                     <X className="h-4 w-4 mr-2" />
                     Remove
-                  </Button>
+                    </Button>
                 </div>
             )}
         </div>

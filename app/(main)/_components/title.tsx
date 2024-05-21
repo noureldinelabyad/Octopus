@@ -1,13 +1,14 @@
 "use client"
 
 import { useRef, useState } from "react";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 
 import { Doc } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { DocumentList } from "./document-list";
 
 interface TitleProps {
     initialData: Doc<"documents">;
@@ -18,6 +19,7 @@ export const Title = ({
 }: TitleProps) => {
     const inputref = useRef<HTMLInputElement>(null);
     const update = useMutation(api.documents.update);
+   const perantDocument = useQuery(api.documents.getParentPath, { documentId: initialData._id });
 
     const [title, setTitle] = useState(initialData.title || "Untitled");
     const [isEditing, setIsEditing] = useState(false);
@@ -55,7 +57,7 @@ export const Title = ({
 
     return (
         <div className="flex items-center gap-x-1">
-         {!!initialData.icon && <p>{initialData.icon}</p>}
+         {/* {!!initialData.icon && <p>{initialData.icon}</p>} */}
          {isEditing ? (
             <Input
              ref={inputref}
@@ -74,7 +76,8 @@ export const Title = ({
              className="font-normal h-auto p-1"
             >
                 <span className="truncate">
-                 {initialData?.title}
+                  {perantDocument}
+                   {/* {initialData?.title} */}
                 </span>
             </Button>
          )}

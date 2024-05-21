@@ -8,13 +8,18 @@ import { toast } from "sonner";
 
 import { api } from "@/convex/_generated/api";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const DocumentsPage = () => {
     const {user} = useUser();
-    const create = useMutation(api.documents.create);    // calling the create function from documents.ts
+    const create = useMutation(api.documents.create);   // calling the create function from documents.ts
+    const router = useRouter();
 
     const onCreate = () => {   // handelr to fire a toast on creting new doc and maybe rediricte 
-        const promise = create ({ title: "Untitled" });     // as tittle is requored in the db  we set it to untitled as defualte 
+        const promise = create ({ title: "Untitled" })     // as tittle is requored in the db  we set it to untitled as defualte 
+        .then((documentId) => {
+            router.push(`/documents/${documentId}`);
+        });
 
         toast.promise(promise, {        // showing msgs  with toasts onCreate new doc
             loading: "Creatign a new note...",

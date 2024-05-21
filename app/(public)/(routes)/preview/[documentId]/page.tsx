@@ -13,7 +13,7 @@ import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import { Navbar } from '@/app/(main)/_components/navbar';
 import { useMediaQuery } from 'usehooks-ts';
-import { Title } from '@/app/(main)/_components/title';
+
 interface DocumentIdPageProps {
     params: {
         documentId: Id<"documents">;
@@ -97,15 +97,15 @@ const DocumentIdPage = ({
     
   return (
     <div className="pb-40">
-      <Navbar isCollapsed={false} onResetWidth={resetWidth}/>
-      <Cover url={document.coverImage} />
+      <Cover preview url={document.coverImage} />
       <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
-        <Toolbar initialData={document} />
+        <Toolbar preview initialData={document} />
         <ErrorBoundary>
-          {/* <Editor
+          <Editor
+            editable={false}
             onChange={onChange}
             initialContent={document.content}
-          /> */}
+          />
         </ErrorBoundary>
       </div>
     </div>

@@ -7,6 +7,7 @@
     /* These settings are not required by Convex and can be modified. */
     "allowJs": true,
     "strict": true,
+    "jsx":"react-jsx",
 
     /* These compiler options are required by Convex */
     "target": "ESNext",
@@ -17,8 +18,12 @@
     "moduleResolution": "Node",
     "isolatedModules": true,
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
+     "baseUrl": ".",  // Add this line
+    "paths": {       // Add this block
+      "@/*": ["../*"]
+    }
   },
-  "include": ["./**/*"],
-  "exclude": ["./_generated"]
+  "include": ["./**/*", "../hooks/**/*"],
+  "exclude": ["./_generated",]
 }

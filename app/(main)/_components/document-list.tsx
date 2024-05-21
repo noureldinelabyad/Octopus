@@ -11,7 +11,7 @@ import { api } from "@/convex/_generated/api";
 import { cn } from "@/lib/utils";
 import { Item } from "./item";
 
-interface DocumentListProps {
+ interface DocumentListProps {
     parentDocumentId?: Id<"documents">;
     level?:  number;  // we have level becouse this  component can be used in nested lists. If it is undefined, then the list will show all documents, recursive function
     date?: Doc<"documents">[]; // DOC IS a type THE DOCMENT SCHEMA AND WILL GONNA BE AN ARRAY OF THOSE

@@ -13,5 +13,7 @@ export const useCoverImage = create<CoverImageStore>((set) =>({
     isOpen: false,
     onOpen: () => set({ isOpen:true, url: undefined }),
     onClose: () => set({ isOpen: false, url: undefined }),
+    onDelete: (url: string) => set({ isOpen: false, url }),
     onReplace:(url: string)=> set({ isOpen: true, url })
 }));
+
