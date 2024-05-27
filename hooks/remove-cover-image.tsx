@@ -31,6 +31,7 @@ export const useDeleteCoverImage = (
         if (urlToDelete) {
             try {
                 await edgestore.publicFiles.delete({ url: urlToDelete });
+                return urlToDelete;
                 console.log("Cover image deleted:", urlToDelete);
             } catch (error) {
                 console.error("Error deleting cover image:", error);

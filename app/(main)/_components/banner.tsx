@@ -41,7 +41,7 @@ export const Banner = ({
             console.log("No cover image to delete");
         }
 
-        //console.log("url is",urlToDelete);
+        console.log("url is",urlToDelete);
 
         const promise = remove({ id: documentId });  // Remove the document from the database
 

@@ -3,7 +3,7 @@ import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { Doc, Id } from "./_generated/dataModel";
 import { useQuery } from "convex/react";
-//import { useDeleteCoverImage } from "@/hooks/remove-cover-image";
+import { useDeleteCoverImage } from "@/hooks/remove-cover-image";
 
 import { deleteCoverImageUtil } from "@/hooks/newremove-cover-image"; // Import the utility function
 import { useEdgeStore } from "@/lib/edgestore";
@@ -204,7 +204,7 @@ export const restore = mutation({
 
 
 export const remove = mutation({
-  args: { id: v.id("documents") },
+  args: { id: v.id("documents"), },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
     //const deleteCoverImage = useDeleteCoverImage(); // Use the utility function
@@ -224,33 +224,37 @@ export const remove = mutation({
     if (existingDocument.userId !== userId) {
       throw new Error("NOT  AUTHORIZED");
     }
-    const { edgestore } = useEdgeStore(); // Ensure you can access edgestore here
+     //const { edgestore } = useEdgeStore(); // Ensure you can access edgestore here
     
-    const recursiveDelete = async (documentId: Id<"documents">) =>{
-
-
+   const recursiveDelete = async (documentId: Id<"documents">) =>{
       const children = await ctx.db
-      .query("documents")
-      .withIndex("by_user_parent", (q)=>(
-        q
-          .eq("userId",userId)
-          .eq("parentDocument",documentId)
-      ))
+        .query("documents")
+        .withIndex("by_user_parent", (q)=>(
+          q
+            .eq("userId",userId)
+            .eq("parentDocument",documentId)
+        ))
       .collect();
       
+      //const deleteCoverImage = useDeleteCoverImage(); // Use the utility function
       for (const child of children){
-        const urlToDelete = child.coverImage;  
+
+        //const urlToDelete = child.coverImage;  
 
         await ctx.db.patch(child._id,{
          isArchived:true,
         });
 
-        await deleteCoverImageUtil(urlToDelete);
-        console.log("urlrec", urlToDelete);
+        //await deleteCoverImage?.(urlToDelete);
+        //console.log("urlrec", urlToDelete, child.title);
        await recursiveDelete(child._id);
         await ctx.db.delete(child._id);
       }
-   // await deleteCoverImage?.(urlToDelete); // Delete cover image of the child document
+    // const urlToDelete = ctx.db.patch(args.id, {coverImage : undefined});  
+       // console.log("urlrec", urlToDelete);
+
+
+    //await deleteCoverImage?.(urlToDelete); // Delete cover image of the child document
     }
 
     await recursiveDelete(args.id);

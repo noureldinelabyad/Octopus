@@ -49,7 +49,9 @@ class ErrorBoundary extends Component<PropsWithChildren<{}>, { hasError: boolean
 const DocumentIdPage = ({
     params
 }: DocumentIdPageProps) => {
-  const Editor = useMemo(() => dynamic(() => import("@/components/editor"),{ssr: false}), []);
+const Editor = useMemo(() => dynamic(() => import("@/components/editor"),{ssr: false}), []);
+ // const Editor = dynamic(() => import("@/components/editor"),{ssr: false});
+
   const navbarRef = useRef<HTMLDivElement>(null); // Ensure this is at the top level, not conditional
   const isMobile = useMediaQuery('(max-width: 768px)'); // Ensure this is at the top level, not conditional
 
@@ -102,10 +104,10 @@ const DocumentIdPage = ({
       <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
         <Toolbar initialData={document} />
         <ErrorBoundary>
-          {/* <Editor
+           {/* <Editor
             onChange={onChange}
             initialContent={document.content}
-          /> */}
+          />  */}
         </ErrorBoundary>
       </div>
     </div>
