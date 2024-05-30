@@ -81,3 +81,175 @@
       @apply bg-background text-foreground;
     }
   }
+
+  /* styles/globals.css */
+.tiptap > * + * {
+  @apply mt-3;
+}
+
+.tiptap ul,
+.tiptap ol {
+  @apply px-4;
+}
+
+.tiptap h1,
+.tiptap h2,
+.tiptap h3,
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+  @apply leading-tight;
+}
+
+.tiptap code {
+  @apply bg-gray-200 text-gray-700;
+}
+
+.tiptap pre {
+  @apply bg-black text-white font-mono p-3 rounded-md;
+}
+
+.tiptap pre code {
+  @apply text-inherit p-0 bg-none text-xs;
+}
+
+.tiptap img {
+  @apply max-w-full h-auto;
+}
+
+.tiptap hr {
+  @apply my-4;
+}
+
+.tiptap blockquote {
+  @apply pl-4 border-l-2 border-gray-200;
+}
+
+
+/* Tooltip container */
+.tooltip-button {
+  index:99999;
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip-text {
+  visibility: hidden;
+  width: 150px ;
+  background-color: #0D0D0D;
+  color: #FFF;
+  text-align: center;
+  font-size:0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  position: absolute;
+  z-index: 99999;
+  bottom: 125%; /* Position the tooltip above the button */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 0.75rem;
+}
+
+/* Tooltip arrow */
+.tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%; /* Arrow pointing down */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #0D0D0D transparent transparent transparent;
+}
+
+/* Show the tooltip text when hovering */
+.tooltip-button:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  cursor: pointer;
+}
+
+/* Dropdown container */
+.color-dropdown {
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 0.5rem;
+}
+
+/* Show dropdown on hover */
+.tooltip-button:hover .color-dropdown {
+  display: flex;
+  cursor: pointer;
+}
+
+/* Vertical list of color buttons */
+.color-list {
+  display: flex;
+  gap: 0.5rem;
+  max-height: 200px; /* Set a maximum height for the color list */
+  overflow-y: auto; /* Enable vertical scrolling */
+  flex-direction: column;
+}
+
+.color-list button {
+  display: flex;
+  align-items: center;
+  margin: 0.25rem 0;
+  padding: 0.25rem 0.5rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.color-list :hover{
+width:100%;
+border-radius:5px;
+}
+
+.bubble-menu {
+  display: flex;
+  width:fit-content;
+  background-color: #0D0D0D;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  margin-left:8rem;
+  space-x:2rem;
+
+  div{
+    border: none;
+    color: #FFF;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0 0.2rem;
+    opacity: 0.5;
+
+    &:hover,
+    &.is-active {
+      opacity: 1;
+      cursor: pointer;
+
+    }
+  }
+
+  button {
+    border: none;
+    background: none;
+    color: #FFF;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0 0.2rem;
+    opacity: 0.6;
+
+    &:hover,
+    &.is-active {
+      opacity: 1;
+      cursor: pointer;
+
+    }
+  }
+}

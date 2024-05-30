@@ -15,12 +15,12 @@ import { useEdgeStore } from "@/lib/edgestore";
 
 interface BannerPops {
     documentId: Id<"documents">;
-    url: string;
+   // url: string;
 };
 
 export const Banner = ({
     documentId,
-    url
+   // url
 }: BannerPops) => {
      const document = useQuery(api.documents.getById, {
         documentId

@@ -14,6 +14,9 @@ import { useMemo } from "react";
 import { Navbar } from '@/app/(main)/_components/navbar';
 import { useMediaQuery } from 'usehooks-ts';
 import { Title } from '@/app/(main)/_components/title';
+
+import Tiptap from "@/components/tiptap";
+
 interface DocumentIdPageProps {
     params: {
         documentId: Id<"documents">;
@@ -49,7 +52,7 @@ class ErrorBoundary extends Component<PropsWithChildren<{}>, { hasError: boolean
 const DocumentIdPage = ({
     params
 }: DocumentIdPageProps) => {
-const Editor = useMemo(() => dynamic(() => import("@/components/editor"),{ssr: false}), []);
+const Editor = useMemo(() => dynamic(() => import("@/editor"),{ssr: false}), []);
  // const Editor = dynamic(() => import("@/components/editor"),{ssr: false});
 
   const navbarRef = useRef<HTMLDivElement>(null); // Ensure this is at the top level, not conditional
@@ -104,10 +107,12 @@ const Editor = useMemo(() => dynamic(() => import("@/components/editor"),{ssr: f
       <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
         <Toolbar initialData={document} />
         <ErrorBoundary>
-           {/* <Editor
+          {/* <Editor
             onChange={onChange}
             initialContent={document.content}
           />  */}
+          <Tiptap />
+
         </ErrorBoundary>
       </div>
     </div>
