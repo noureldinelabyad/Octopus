@@ -18,7 +18,7 @@ import Code from '@tiptap/extension-code'
 import { useEdgeStore } from "@/lib/edgestore";
 
 interface TiptapProps {
-  onContentChange: (value: string) => void;
+  onContentChange: (content: string) => void;
   initialContent?: string;
   editable?: boolean;
 
@@ -28,7 +28,7 @@ interface TiptapProps {
 const Tiptap = ({
    onContentChange, 
    initialContent,
-   editable,
+   editable= true,
   }: TiptapProps) => {
   const { resolvedTheme } = useTheme();
   const {edgestore} = useEdgeStore();
@@ -46,6 +46,15 @@ const Tiptap = ({
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
+  };
+
+  const isValidJSON = (str: string) => {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
   };
 
   const editor  = useEditor({
@@ -70,7 +79,8 @@ const Tiptap = ({
       }),
     ],
     editable,
-    content: initialContent 
+    content: 
+    initialContent && isValidJSON(initialContent)
     ? JSON.parse(initialContent) as []
     : undefined || '<p>welcome to your World! 🌎️</p>',
     onUpdate: ({ editor }) => {
@@ -251,7 +261,6 @@ const Tiptap = ({
 
         <EditorContent 
           editor={editor}
-          className="tiptap"
 
         />
 
