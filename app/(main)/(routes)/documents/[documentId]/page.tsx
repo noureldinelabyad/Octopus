@@ -17,6 +17,8 @@ import { Title } from '@/app/(main)/_components/title';
 
 import Tiptap from "@/components/tiptap";
 
+
+
 interface DocumentIdPageProps {
     params: {
         documentId: Id<"documents">;
@@ -52,7 +54,9 @@ class ErrorBoundary extends Component<PropsWithChildren<{}>, { hasError: boolean
 const DocumentIdPage = ({
     params
 }: DocumentIdPageProps) => {
-const Editor = useMemo(() => dynamic(() => import("@/editor"),{ssr: false}), []);
+//const Editor = useMemo(() => dynamic(() => import("@/editor"),{ssr: false}), []);
+const Tiptap = useMemo(() => dynamic(() => import("@/components/tiptap"),{ssr: false}), []);
+
  // const Editor = dynamic(() => import("@/components/editor"),{ssr: false});
 
   const navbarRef = useRef<HTMLDivElement>(null); // Ensure this is at the top level, not conditional
@@ -63,13 +67,26 @@ const Editor = useMemo(() => dynamic(() => import("@/editor"),{ssr: false}), [])
   });
 
   const update = useMutation(api.documents.update);
+
+  const [editorContent, setEditorContent] = useState(document?.content || '');
+
   
   const onChange = (content: string) => {
+    setEditorContent(content);
     update({
       id: params.documentId,
       content
     });
-    //console.log(content);
+    console.log(content);
+  };
+
+  const onContentChange = (content: string) => {
+    setEditorContent(content);
+    update({
+      id: params.documentId,
+      content
+    });
+    console.log(content);
   };
 
   // Ensure all hooks are above any conditions or early returns
@@ -111,8 +128,10 @@ const Editor = useMemo(() => dynamic(() => import("@/editor"),{ssr: false}), [])
             onChange={onChange}
             initialContent={document.content}
           />  */}
-          <Tiptap />
-
+        <Tiptap
+          onContentChange={onContentChange}
+          initialContent={document.content}
+        />
         </ErrorBoundary>
       </div>
     </div>

@@ -15,11 +15,34 @@ import Text from '@tiptap/extension-text'
 import Underline from '@tiptap/extension-underline'
 import Code from '@tiptap/extension-code'
 
+import { useEdgeStore } from "@/lib/edgestore";
+
+interface TiptapProps {
+  onContentChange: (value: string) => void;
+  initialContent?: string;
+  editable?: boolean;
+
+}
 
 
-const Tiptap = () => {
+const Tiptap = ({
+   onContentChange, 
+   initialContent,
+   editable,
+  }: TiptapProps) => {
   const { resolvedTheme } = useTheme();
+  const {edgestore} = useEdgeStore();
+
+  const handelUpload = async (file: File) => {
+    const response = await edgestore.publicFiles.upload({
+        file
+    });
+
+    return response.url;
+}
+
   const [inputValue, setInputValue] = useState('');
+  
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -46,8 +69,15 @@ const Tiptap = () => {
         nested: true,
       }),
     ],
-    content: '<p>welcome to your World! 🌎️</p>',
-    
+    editable,
+    content: initialContent 
+    ? JSON.parse(initialContent) as []
+    : undefined || '<p>welcome to your World! 🌎️</p>',
+    onUpdate: ({ editor }) => {
+      const jsonContent = editor.getJSON();
+      onContentChange(JSON.stringify(jsonContent, null,2));
+    },
+    //uploadFile: handelUpload
   });
 
   if (!editor) return null;
@@ -222,6 +252,7 @@ const Tiptap = () => {
         <EditorContent 
           editor={editor}
           className="tiptap"
+
         />
 
       </div>
