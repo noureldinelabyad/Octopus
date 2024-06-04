@@ -2,24 +2,27 @@
 
 import { useState } from "react";
 import { useQuery } from "convex/react";
-import { FileIcon } from "lucide-react";
+import { File, FileIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 
 import { Doc, Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
 
 import { cn } from "@/lib/utils";
-import { Item } from "./item";
+import { Item } from "../app/(main)/_components/item";
 
- interface DocumentListProps {
+interface DocumentListProps {
     parentDocumentId?: Id<"documents">;
     level?:  number;  // we have level becouse this  component can be used in nested lists. If it is undefined, then the list will show all documents, recursive function
     date?: Doc<"documents">[]; // DOC IS a type THE DOCMENT SCHEMA AND WILL GONNA BE AN ARRAY OF THOSE
+    initialData?: Doc<"documents">;
+
 }
 
 export const DocumentList = ({
     parentDocumentId,
-    level = 0
+    level = 0,
+
 }: DocumentListProps) => {
     const Params = useParams();
     const router = useRouter();
@@ -72,11 +75,11 @@ export const DocumentList = ({
                 <div key={document._id}>
                     <Item 
                         id={document._id}
-                        onClick={() => onRedirect(document._id)}
                         label={document.title}
+                        onClick={() => onRedirect(document._id)}
                         icon={FileIcon}
-                        documentIcon={document.icon}
                         active={Params.documentId === document._id}
+                        documentIcon={document.icon}
                         level={level}
                         onExpand={() => onExpand(document._id)}
                         expanded={expanded[document._id]}
@@ -90,5 +93,57 @@ export const DocumentList = ({
                 </div>
             ))}
         </>
+    );
+};
+
+export const DocumentsGrid = ({
+     parentDocumentId,
+      level = 0,
+      initialData,
+    }: DocumentListProps) => {
+    const documents = useQuery(api.documents.getSidebar, {
+        parentDocument: parentDocumentId,
+    });
+
+    const router = useRouter();
+    const Params = useParams();
+    const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+
+    const onExpand = (documnetId: string) => {
+        setExpanded(prevExpanded => ({
+            ...prevExpanded,   // add all the pprevious expanded documents
+            [documnetId]: !prevExpanded[documnetId]   // and here we togle the fucntion  of the current document id, the opposite if the currunt state of the expanded function
+        }));
+    };
+
+    const onRedirect = (documentId: string) => {
+        router.push(`/documents/${documentId}`);
+    };
+    
+    if (!documents) {
+        return <div>Loading...</div>; // Placeholder for loading state
+    }
+
+    return (
+        <div className="grid grid-cols-4 w-full  m-5 py-5 rounded-lg ">
+            {documents.map((document) => (
+                <div
+                 key={document._id}
+                  role="button" onClick={() => onRedirect(document._id)} 
+                  className="flex flex-col w-full h-full items-center justify-center text-xl mb-5 hover:bg-neutral-600 rounded-full"
+                >
+                    {document.icon ? (
+                            <div className="w-full h-full flex items-center justify-center">
+                                {document.icon}
+                            </div>
+                        ) : (
+                            <div>
+                                <FileIcon />
+                            </div>
+                            )}
+                    <h3 className="mt-0 font-bold text-center text-foreground">{document.title}</h3>
+                </div>
+            ))}
+        </div>
     );
 };

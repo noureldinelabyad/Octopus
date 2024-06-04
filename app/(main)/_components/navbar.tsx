@@ -50,27 +50,29 @@ export const Navbar = ({
     
     return (
         <>
-            <nav className={`bg-secondary dark:bg-[#1F1F1F] px-3 py-2 w-full h-[77px] flex items-center justify-between`}>
-                <div className="flex w-full justify-start">
-                    {/* Empty div for balancing flex space */}
-                </div>
-                <div className="flex w-full h-full items-center justify-center">
-                    <div className="w-[90%] h-10 flex items-center justify-center bg-natural rounded-full hover:bg-natural/80 shadow-[-3px_4px_6px_#d3c7d6]">
-                        <Item label="Search for ..." icon={Search} onClick={search.onOpen} />
+            <div className=" z-[99999] sticky top-0">
+                <nav className={`bg-secondary dark:bg-[#1F1F1F] px-3 py-2 w-full h-[77px] flex items-center justify-between`}>
+                    <div className="flex w-full justify-start">
+                        {/* Empty div for balancing flex space */}
                     </div>
-                </div>
-                <div className="flex w-full items-center justify-end">
-                    <Publish initialData={document} />
-                    <img src="/settings-icon.png" alt="Settings" onClick={settings.onOpen} className="h-8 w-8 text-muted-foreground" />
-                    <Menu documentId={document._id} />
-                </div>
-            </nav>
-            <span className="absolute justify-start ml-[4%] top-6 truncate">
-                <Title initialData={document} />
-            </span>
-            {document.isArchived && (
-                <Banner documentId={document._id}/>
-            )}
+                    <div className="flex w-full h-full items-center justify-center">
+                        <div className="w-[90%] h-10 flex items-center justify-center bg-natural rounded-full hover:bg-natural/80 shadow-[-3px_4px_6px_#d3c7d6]">
+                            <Item label="Search for ..." icon={Search} onClick={search.onOpen} />
+                        </div>
+                    </div>
+                    <div className="flex w-full items-center justify-end">
+                        <Publish initialData={document} />
+                        <img src="/settings-icon.png" alt="Settings" onClick={settings.onOpen} className="h-8 w-8 text-muted-foreground" />
+                        <Menu documentId={document._id} />
+                    </div>
+                </nav>
+                <span className="absolute justify-start ml-[4%] top-6 truncate">
+                    <Title initialData={document} />
+                </span>
+                {document.isArchived && (
+                    <Banner documentId={document._id}/>
+                )}
+            </div>
         </>
     );
 }

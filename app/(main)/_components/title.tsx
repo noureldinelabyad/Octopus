@@ -8,7 +8,7 @@ import { api } from "@/convex/_generated/api";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { DocumentList } from "./document-list";
+import { DocumentList } from "../../../components/document-list";
 
 interface TitleProps {
     initialData: Doc<"documents">;
@@ -77,7 +77,6 @@ export const Title = ({
             >
                 <span className="truncate">
                   {perantDocument}
-                   {/* {initialData?.title} */}
                 </span>
             </Button>
          )}

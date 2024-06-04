@@ -27,7 +27,7 @@ import { useSettings } from "@/hooks/use-settings";
 
 import { UserItem } from "./user-item";
 import { Item } from "./item";
-import { DocumentList } from "./document-list";
+import { DocumentList } from "../../../components/document-list";
 import { TrashBox } from "./trash-box";
 import { Navbar } from "./navbar";
 import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
@@ -151,48 +151,65 @@ export const Navigation = () => {
           isMobile && "w-0 "
         )}
       >
-        <div
-          onClick={collapse}
-          role="button"
-          className={cn(
-            "flex items-center justify-between p-3 bg-primary mt-1 w-full bg-neutral",
-            isMobile && "opacity-100"
-          )}
-        >
-          <div className="flex align-middle mx-2">
-            <img src="/logo-light.png" alt="Logo" className="h-11 w-12" />
-            <span className="text-2xl mt-2 font-bold [font-family:'Orelega_One-Regular',Helvetica] text-[#5d0096]">
-              Octopus
-            </span>
+        <div >
+
+          <div
+            onClick={collapse}
+            role="button"
+            className={cn(
+              "flex items-center justify-between p-3 bg-primary mt-1 w-full bg-neutral",
+              isMobile && "opacity-100"
+            )}
+          >
+            <div className="flex align-middle mx-2">
+              <img src="/logo-light.png" alt="Logo" className="h-11 w-12" />
+              <span className="text-2xl mt-2 font-bold [font-family:'Orelega_One-Regular',Helvetica] text-[#5d0096]">
+                Octopus
+              </span>
+            </div>
+
+            <div className="relative w-8 h-8 mr-2 bg-natural rounded-full shadow-md">
+              <ChevronsLeft className="absolute w-5 h-5 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer" />
+            </div>
+
           </div>
-          <div className="relative w-8 h-8 mr-2 bg-natural rounded-full shadow-md">
-            <ChevronsLeft className="absolute w-5 h-5 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer" />
+
+          <DropdownMenuSeparator className="bg-primary/10 " />
+
+          <div className="my-3">
+            <UserItem />
           </div>
+
+          <div className="mx-2">
+            <Item label="Search" icon={Search} isSearch onClick={search.onOpen} />
+            <Item label="Settings" icon={Settings} onClick={settings.onOpen} />
+            <Item onClick={handelCreate} label="New page" icon={PlusCircle} />
+          </div>
+
         </div>
-        <DropdownMenuSeparator className="bg-primary/10 " />
-        <div className="my-3">
-          <UserItem />
-        </div>
-        <div className="mx-2">
-          <Item label="Search" icon={Search} isSearch onClick={search.onOpen} />
-          <Item label="Settings" icon={Settings} onClick={settings.onOpen} />
-          <Item onClick={handelCreate} label="New page" icon={PlusCircle} />
-        </div>
-        <div className="mt-4 mx-2">
+
+        <div className="mt-4 mx-2 block overflow-y-auto">
+
+          <p className="text-md font-medium text-muted-foreground/80 pb-1">
+            Pages
+          </p>
           <DocumentList />
-          <Item onClick={handelCreate} icon={Plus} label="Add a Page" />
-          <Popover>
-            <PopoverTrigger className="w-full mt-4 ">
-              <Item label="Trash" icon={Trash} />
-            </PopoverTrigger>
-            <PopoverContent
-              className="p-0 w-72"
-              side={isMobile ? "bottom" : "right"}
-            >
-              <TrashBox />
-            </PopoverContent>
-          </Popover>
-        </div>
+       </div>
+
+        <Item onClick={handelCreate} icon={Plus} label="Add a Page" />
+
+        <Popover>
+          <PopoverTrigger className="w-full mt-4 ">
+            <Item label="Trash" icon={Trash} />
+          </PopoverTrigger>
+          <PopoverContent
+            className="p-0 w-72"
+            side={isMobile ? "bottom" : "right"}
+          >
+            <TrashBox />
+          </PopoverContent>
+        </Popover>
+
         <div
           onMouseDown={handelMouseDown}
           onClick={resetWidth}
@@ -200,18 +217,20 @@ export const Navigation = () => {
           transition cursor-ew-resize absolute h-full w-0.5 bg-primary/10 
           right-0 top-0" // this div is hidden till when we houver on the aside element (group) it will be showmn from (group/sidebar), courser ti resize the size bar (the bold line in the side of navbar)
         />
-      <div
-        ref={navbarRef}
-        className="absolute top-0 z[99999] w-[calc(100%-240px)] left-60transition-all ease-in-out duration-300 shadow-[-3px_4px_6px_#d3c7d6]"
-      >
-        {!!isCollapsed && (
-          <MenuIcon
-          onClick={resetWidth}
-            role="button"
-            className="h-6 w-6 m-3 absolute text-muted-foreground"
-          />
-        )}
-      </div>
+
+        <div
+          ref={navbarRef}
+          className="absolute top-0 z[99999] w-[calc(100%-240px)] left-60transition-all ease-in-out duration-300 bg-[5D0096] shadow-[-3px_4px_6px_#d3c7d6]"
+        >
+          {!!isCollapsed && (
+            <MenuIcon
+            onClick={resetWidth}
+              role="button"
+              className="h-6 w-6 m-3 absolute text-muted-foreground"
+            />
+          )}
+        </div>
+
       </aside>
     </>
   );

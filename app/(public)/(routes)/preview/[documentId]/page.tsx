@@ -14,6 +14,8 @@ import { useMemo } from "react";
 import { Navbar } from '@/app/(main)/_components/navbar';
 import { useMediaQuery } from 'usehooks-ts';
 
+import Tiptap from '@/components/tiptap';
+
 interface DocumentIdPageProps {
     params: {
         documentId: Id<"documents">;
@@ -58,6 +60,9 @@ const DocumentIdPage = ({
   });
 
   const update = useMutation(api.documents.update);
+
+  const [editorContent, setEditorContent] = useState(document?.content || '');
+
   
   const onChange = (content: string) => {
     update({
@@ -65,6 +70,15 @@ const DocumentIdPage = ({
       content
     });
     //console.log(content);
+  };
+
+  const onContentChange = (content: string) => {
+    setEditorContent(content);
+    update({
+      id: params.documentId,
+      content
+    });
+    console.log(content);
   };
 
   // Ensure all hooks are above any conditions or early returns
@@ -101,9 +115,14 @@ const DocumentIdPage = ({
       <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
         <Toolbar preview initialData={document} />
         <ErrorBoundary>
-          <Editor
+          {/* <Editor
             editable={false}
             onChange={onChange}
+            initialContent={document.content}
+          /> */}
+          <Tiptap
+            editable={false}
+            onContentChange={onContentChange}
             initialContent={document.content}
           />
         </ErrorBoundary>

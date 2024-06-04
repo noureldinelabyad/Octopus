@@ -118,7 +118,7 @@ const Tiptap = useMemo(() => dynamic(() => import("@/components/tiptap"),{ssr: f
   };
     
   return (
-    <div className="pb-40">
+    <div className="pb-40 dark:bg-[#1F1F1F]">
       <Navbar isCollapsed={false} onResetWidth={resetWidth}/>
       <Cover url={document.coverImage} />
       <div className="md:max-w-3xl lg:max-w-4xl mx-auto">

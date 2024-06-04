@@ -10,10 +10,22 @@ import { api } from "@/convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
+import { Item } from "@/app/(main)/_components/item";
+import { MenuIcon, Search } from "lucide-react";
+import { useSearch } from "@/hooks/use-search";
+import { useSettings } from "@/hooks/use-settings";
+
+
+import { DocumentsGrid } from "@/components/document-list";
+
 const DocumentsPage = () => {
     const {user} = useUser();
     const create = useMutation(api.documents.create);   // calling the create function from documents.ts
     const router = useRouter();
+
+    const search = useSearch();
+    const settings = useSettings();
+
 
     const onCreate = () => {   // handelr to fire a toast on creting new doc and maybe rediricte 
         const promise = create ({ title: "Untitled" })     // as tittle is requored in the db  we set it to untitled as defualte 
@@ -27,26 +39,49 @@ const DocumentsPage = () => {
             error: "Failed to create a new note."
         });
     };
-
+    
     return (
-        <div className="h-full flex flex-col items-center justify-center space-y-4">
-            <Image
-            src="/note-light.png"
-            height="300"
-            width="300"
-            alt="note"
-            className="dark:hidden"
-            />
-            <Image
-            src="/note-dark.png"
-            height="300"
-            width="300"
-            alt="note"
-            className="hidden dark:block"
-            />
-            <h2 className="text-lg font-medium">
-                Welcome to {user?.firstName}&apos;s Octopus
-            </h2>
+        <div className="h-full flex flex-col items-center space-y-4 dark:bg-[#1F1F1F]" >
+            <div className=" z-[99999] sticky top-[0] w-full">
+                <nav className={`bg-secondary dark:bg-[#1F1F1F] px-3 py-2 w-full h-[77px] flex items-center justify-between`}>
+                    <div className="flex w-full justify-start">
+                        {/* Empty div for balancing flex space */}
+                    </div>
+                    <div className="flex w-full h-full items-center justify-center">
+                        <div className="w-[90%] h-10 flex items-center justify-center bg-natural rounded-full hover:bg-natural/80 shadow-[-3px_4px_6px_#d3c7d6]">
+                            <Item label="Search for ..." icon={Search} onClick={search.onOpen} />
+                        </div>
+                    </div>
+                    <div className="flex w-full items-center justify-end">
+                        <img src="/settings-icon.png" alt="Settings" onClick={settings.onOpen} className="h-8 w-8 text-muted-foreground" />
+                    </div>
+                    <div className="flex w-full justify-start">
+                        {/* Empty div for balancing flex space */}
+                    </div>
+                </nav>
+            </div>
+            <div className=" w-full justify-center items-center flex top-0 opacity-100 z-[9999] ">
+                <DocumentsGrid/>
+            </div>
+            <div className=" fixed justify-center items-center top-20 mt-20 opacity-30 z-[0] ">
+                <Image
+                src="/octoput-light.png"
+                height="300"
+                width="300"
+                alt="note"
+                className="dark:hidden"
+                />
+                <Image
+                src="/octoput-dark.png"
+                height="300"
+                width="300"
+                alt="note"
+                className="hidden dark:block"
+                />
+            </div>
+                <h2 className="text-lg font-medium">
+                    Welcome to {user?.firstName}&apos;s Octopus
+                </h2>
             <Button onClick={onCreate}>
                 <PlusCircle className="h-4 w-4 mr-2"/>
                 Create a note
