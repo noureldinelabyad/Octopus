@@ -81,7 +81,6 @@
       @apply bg-background text-foreground;
     }
   }
-
   /* styles/globals.css */
 .tiptap > * + * {
   @apply mt-3;

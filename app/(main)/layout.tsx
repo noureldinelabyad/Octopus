@@ -33,29 +33,12 @@ const MainLayout = ({
 
     return ( 
         <div className="flex h-full dark:bg-[#1F1F1F]">
-            <div className="flex max-h-full top-0">
+            <div className=" flex">
              <Navigation />
             </div>
-            <main className="flex-1 h-full overglow-y-auto">
-            <SearchCommand />
-            <div className="  fixed opacity-30 ">
-                <Image
-                src="/octoput-light.png"
-                height="300"
-                width="300"
-                alt="note"
-                className="dark:hidden"
-                />
-                <Image
-                src="/octoput-dark.png"
-                height="300"
-                width="300"
-                alt="note"
-                className="hidden dark:block"
-                />
-            </div>
-            {children}
-            
+            <main className="flex-1 h-full overflow-y-auto">
+                <SearchCommand />
+                {children}
             </main>
         </div>
      );

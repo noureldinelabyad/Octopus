@@ -42,31 +42,31 @@ const DocumentsPage = () => {
     
     return (
         <div className="h-full flex flex-col items-center space-y-4 dark:bg-[#1F1F1F]" >
-            <div className=" z-[99999] sticky top-[0] w-full">
-                <nav className={`bg-secondary dark:bg-[#1F1F1F] px-3 py-2 w-full h-[77px] flex items-center justify-between`}>
+            <div className=" z-[9999] sticky top-[0] w-full">
+            <nav className={`bg-secondary dark:bg-[#1F1F1F] px-3 py-2 w-full h-[77px] flex items-center justify-between`}>
                     <div className="flex w-full justify-start">
                         {/* Empty div for balancing flex space */}
                     </div>
                     <div className="flex w-full h-full items-center justify-center">
-                        <div className="w-[90%] h-10 flex items-center justify-center bg-natural rounded-full hover:bg-natural/80 shadow-[-3px_4px_6px_#d3c7d6]">
+                        <div className="w-[100%] h-10 flex items-center justify-center bg-natural rounded-full hover:bg-natural/80 shadow-[-3px_4px_6px_#d3c7d6]">
                             <Item label="Search for ..." icon={Search} onClick={search.onOpen} />
                         </div>
-                    </div>
-                    <div className="flex w-full items-center justify-end">
-                        <img src="/settings-icon.png" alt="Settings" onClick={settings.onOpen} className="h-8 w-8 text-muted-foreground" />
                     </div>
                     <div className="flex w-full justify-start">
                         {/* Empty div for balancing flex space */}
                     </div>
+                    <div className="flex w-full items-center justify-end mr-2">
+                        <img src="/settings-icon.png" alt="Settings" onClick={settings.onOpen} className="h-8 w-8 text-muted-foreground" />
+                    </div>
                 </nav>
             </div>
-            <div className=" w-full justify-center items-center flex top-0 opacity-100 z-[9999] ">
+            <div className=" w-full justify-center items-center flex opacity-100 z-[99] ">
                 <DocumentsGrid/>
             </div>
-            <div className=" fixed justify-center items-center top-20 mt-20 opacity-30 z-[0] ">
+            <div className=" fixed justify-center items-center top-[200px] opacity-10 z-[0] ">
                 <Image
                 src="/octoput-light.png"
-                height="300"
+                height="220"
                 width="300"
                 alt="note"
                 className="dark:hidden"

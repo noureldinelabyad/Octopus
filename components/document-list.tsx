@@ -72,7 +72,9 @@ export const DocumentList = ({
                 No Pages inside
             </p>
             {documents.map((document)=>(
-                <div key={document._id}>
+                <div key={document._id}
+                    className=" overflow-auto"
+                >
                     <Item 
                         id={document._id}
                         label={document.title}

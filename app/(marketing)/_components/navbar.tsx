@@ -23,7 +23,7 @@ export const Navbar  = () => {
         )}>
             <Logo/>
             <div className="md:ml-auto md:justify-end
-            justify-between w-full flex items-center gap-x-2">
+                justify-between w-full flex items-center gap-x-2">
                 {isLoading && (       //  Loading convex auth status (like if condtion if  user is logged in and if authenticated)
                     <Spinner/>
                 )}

@@ -4,6 +4,9 @@ import { useQuery } from "convex/react";
 import { useParams } from "next/navigation";
 import { MenuIcon, Search } from "lucide-react";
 
+import { cn } from "@/lib/utils";
+import { useScrollTop } from "@/hooks/use-scroll-top"
+
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 
@@ -25,6 +28,7 @@ export const Navbar = ({
     isCollapsed,
     onResetWidth
 }: NavbarProps) => {
+    const scrollDirection = useScrollTop();
     const search = useSearch();
     const settings = useSettings();
     const  params = useParams();
@@ -50,7 +54,8 @@ export const Navbar = ({
     
     return (
         <>
-            <div className=" z-[99999] sticky top-0">
+            <div className={cn(" z-[9999] sticky top-0", 
+             scrollDirection === 'down' && "border-b shadow-sm")}>
                 <nav className={`bg-secondary dark:bg-[#1F1F1F] px-3 py-2 w-full h-[77px] flex items-center justify-between`}>
                     <div className="flex w-full justify-start">
                         {/* Empty div for balancing flex space */}
