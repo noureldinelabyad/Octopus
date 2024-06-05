@@ -43,14 +43,12 @@ const DocumentsPage = () => {
     return (
         <div className="h-full flex flex-col items-center space-y-4 dark:bg-[#1F1F1F]" >
             <div className=" z-[9999] sticky top-[0] w-full">
-            <nav className={`bg-secondary dark:bg-[#1F1F1F] px-3 py-2 w-full h-[77px] flex items-center justify-between`}>
+                <nav className={`bg-secondary dark:bg-[#1F1F1F] px-3 py-2 w-full h-[77px] flex items-center justify-between`}>
                     <div className="flex w-full justify-start">
                         {/* Empty div for balancing flex space */}
                     </div>
-                    <div className="flex w-full h-full items-center justify-center">
-                        <div className="w-[100%] h-10 flex items-center justify-center bg-natural rounded-full hover:bg-natural/80 shadow-[-3px_4px_6px_#d3c7d6]">
-                            <Item label="Search for ..." icon={Search} onClick={search.onOpen} />
-                        </div>
+                    <div className="w-[190%] h-10 flex items-center justify-center bg-natural rounded-full hover:bg-natural/80 shadow-[-3px_4px_6px_#d3c7d6]">
+                        <Item label="Search for ..." icon={Search} onClick={search.onOpen} />
                     </div>
                     <div className="flex w-full justify-start">
                         {/* Empty div for balancing flex space */}
@@ -79,13 +77,15 @@ const DocumentsPage = () => {
                 className="hidden dark:block"
                 />
             </div>
+            <div className="flex flex-col justify-center items-center">
                 <h2 className="text-lg font-medium">
                     Welcome to {user?.firstName}&apos;s Octopus
                 </h2>
-            <Button onClick={onCreate}>
-                <PlusCircle className="h-4 w-4 mr-2"/>
-                Create a note
-            </Button>
+                <Button onClick={onCreate}>
+                    <PlusCircle className="h-4 w-4 mr-2"/>
+                    Create a note
+                </Button>
+            </div>
         </div>
     );
 }

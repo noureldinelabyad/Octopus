@@ -127,23 +127,23 @@ export const DocumentsGrid = ({
     }
 
     return (
-        <div className="grid grid-cols-4 w-full  m-5 py-5 rounded-lg ">
+        <div className="grid grid-cols-4 items-center justify-center shadow-[-1px_4px_4px_4px_#5D0096] text-3xl w-[80%] py-2 rounded-lg ">
             {documents.map((document) => (
                 <div
-                 key={document._id}
-                  role="button" onClick={() => onRedirect(document._id)} 
-                  className="flex flex-col w-full h-full items-center justify-center text-xl mb-5 hover:bg-neutral-600 rounded-full"
+                key={document._id}
+                role="button" onClick={() => onRedirect(document._id)} 
+                className="flex flex-col w-[70%] h-full items-center justify-center hover:shadow-[-1px_4px_4px_4px_#5D0096] p-4 m-2 rounded-full"
                 >
                     {document.icon ? (
                             <div className="w-full h-full flex items-center justify-center">
                                 {document.icon}
                             </div>
                         ) : (
-                            <div>
+                            <div className="w-full h-full flex items-center justify-center">
                                 <FileIcon />
                             </div>
                             )}
-                    <h3 className="mt-0 font-bold text-center text-foreground">{document.title}</h3>
+                    <h3 className=" m-2 font-bold text-center text-foreground">{document.title}</h3>
                 </div>
             ))}
         </div>
