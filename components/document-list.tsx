@@ -1,8 +1,8 @@
 "use cleint"
-
+import React from 'react';
 import { useState } from "react";
 import { useQuery } from "convex/react";
-import { File, FileIcon } from "lucide-react";
+import { FileIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 
 import { Doc, Id } from "@/convex/_generated/dataModel";
@@ -14,7 +14,7 @@ import { Item } from "../app/(main)/_components/item";
 interface DocumentListProps {
     parentDocumentId?: Id<"documents">;
     level?:  number;  // we have level becouse this  component can be used in nested lists. If it is undefined, then the list will show all documents, recursive function
-    date?: Doc<"documents">[]; // DOC IS a type THE DOCMENT SCHEMA AND WILL GONNA BE AN ARRAY OF THOSE
+    data?: Doc<"documents">[]; // DOC IS a type THE DOCMENT SCHEMA AND WILL GONNA BE AN ARRAY OF THOSE
     initialData?: Doc<"documents">;
 
 }
@@ -100,23 +100,12 @@ export const DocumentList = ({
 
 export const DocumentsGrid = ({
      parentDocumentId,
-      level = 0,
-      initialData,
     }: DocumentListProps) => {
     const documents = useQuery(api.documents.getSidebar, {
         parentDocument: parentDocumentId,
     });
 
     const router = useRouter();
-    const Params = useParams();
-    const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-
-    const onExpand = (documnetId: string) => {
-        setExpanded(prevExpanded => ({
-            ...prevExpanded,   // add all the pprevious expanded documents
-            [documnetId]: !prevExpanded[documnetId]   // and here we togle the fucntion  of the current document id, the opposite if the currunt state of the expanded function
-        }));
-    };
 
     const onRedirect = (documentId: string) => {
         router.push(`/documents/${documentId}`);
@@ -127,12 +116,15 @@ export const DocumentsGrid = ({
     }
 
     return (
-        <div className="grid grid-cols-4 items-center justify-center shadow-[-1px_4px_4px_4px_#5D0096] text-3xl w-[80%] py-2 rounded-lg ">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] overflow-x-hidden w-[50rem]
+         items-center justify-center shadow-[-1px_4px_4px_4px_#5D0096] text-3xl p-6 h-[30rem] 
+         resize overflow-y-auto rounded-lg">
             {documents.map((document) => (
                 <div
                 key={document._id}
                 role="button" onClick={() => onRedirect(document._id)} 
-                className="flex flex-col w-[70%] h-full items-center justify-center hover:shadow-[-1px_4px_4px_4px_#5D0096] p-4 m-2 rounded-full"
+                className="flex flex-col h-full items-center justify-center 
+                hover:shadow-[-1px_4px_4px_4px_#5D0096] m-2 rounded-full"
                 >
                     {document.icon ? (
                             <div className="w-full h-full flex items-center justify-center">
@@ -148,4 +140,105 @@ export const DocumentsGrid = ({
             ))}
         </div>
     );
+};
+
+export const ChildDocumentGrid = ({
+    parentDocumentId,
+    level = 0,
+    
+}: DocumentListProps ) => {
+    const router = useRouter();
+    const params = useParams();
+    const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+    //const [childDocuments, setChildDocuments] = useState<Record<string, Doc<"documents">[]>>({});
+
+    // const documents = useQuery(api.documents.getSidebar, {
+    //     parentDocument: parentDocumentId,
+    // });
+
+    // const chids = useQuery(
+    //     api.documents.getChildDocuments,
+    //     { documentId: parentDocumentId }
+    // );
+
+    const document = useQuery(api.documents.getById, {
+        documentId: params.documentId as Id<"documents">
+    });
+
+    if (!parentDocumentId){
+        return <div>Loading...</div>
+    }
+
+    const onRedirect = (documentId: string) => {
+        router.push(`/documents/${documentId}`);
+    };
+    
+    const onExpand = (documentId: string) => {
+        setExpanded(prevExpanded => ({
+            ...prevExpanded,
+            [documentId]: !prevExpanded[documentId],
+        }));
+    };
+    
+    // useEffect(() => {
+    //     const fetchChildDocuments = async (documentId: Id<"documents">) => {
+    //         const childDocs = await useQuery(api.documents.getChildDocuments, { documentId });
+    //         setChildDocuments(prevChildDocs => ({
+    //             ...prevChildDocs,
+    //             [documentId]: childDocs ? childDocs : [],
+    //         }));
+    //     };
+
+    // }, [expanded]);
+
+    // if (!documents) {
+    //     return <div>Loading...</div>; // Placeholder for loading state
+    // }
+       
+    //const childDocuments = documents.filter(document => document.parentDocument === document._id);
+
+    //const documentsWithParents = documents?.filter(document => document.parentDocument !== null);
+
+    // console.log("docs",childDocuments);
+    // console.log("childs",documentsWithParents);
+
+    return (
+        <div
+         className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] overflow-x-hidden w-[50rem]
+         items-center justify-center shadow-[-1px_4px_4px_4px_#5D0096] text-3xl p-6 h-[30rem] 
+         resize overflow-y-auto rounded-lg"
+        >
+            {/* {document?.parentDocument === document?._id ? ( */}
+{/* 
+                {chids?.map((document) => (
+                    <div
+                    key={document._id}
+                    role="button" onClick={() => onRedirect(document._id)} 
+                    className="flex flex-col h-full items-center justify-center 
+                    hover:shadow-[-1px_4px_4px_4px_#5D0096] m-2 rounded-full"
+                    >
+                    {document.icon ? (
+                        <div className="w-full h-full flex items-center justify-center">
+                        {document.icon}
+                        </div>
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                                <FileIcon />
+                            </div>
+                            )}
+                            <h3 className=" m-2 font-bold text-center text-foreground">{document.title}</h3>
+                        </div>
+                    
+                    ))
+                } */}
+
+            {/* ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                    no docuemns inside
+                </div>
+            )
+            } */}
+       </div>
+    );
+
 };

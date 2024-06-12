@@ -435,7 +435,40 @@ export const getParentPath = query({
   }
 });
 
+export const getChildDocuments = query({
+  args:{
+    documentId: v.id("documents")
+  },
+  handler: async (ctx, args) => {
 
+    if (!args.documentId) {
+      throw new Error("Document ID is required");
+    }
+    const identity = await ctx.auth.getUserIdentity();
+    
 
+    const userId = identity?.subject;
+    
+    let currentDocumentId: Id<"documents"> | undefined = args.documentId;
+    
+    
+   if (!args.documentId) {
+  throw new Error("Document ID is required");
+}
+
+  const childDocuments = await ctx.db
+    .query("documents")
+    .withIndex("by_user_parent", (q) =>
+      q.eq("userId", userId ? userId : '').eq("parentDocument", currentDocumentId)
+    )
+    //  .filter(
+    //     document => document.parentDocument !== null
+    //   )
+    .order("desc")
+    .collect();
+
+  return childDocuments;
+  },
+});
 
 

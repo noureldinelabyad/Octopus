@@ -11,11 +11,18 @@ import Highlight from '@tiptap/extension-highlight';
 import Typography from '@tiptap/extension-typography';
 import { useTheme } from "next-themes";
 
-import Text from '@tiptap/extension-text'
+import Text from '@tiptap/extension-text';
 import Underline from '@tiptap/extension-underline'
-import Code from '@tiptap/extension-code'
+
+import BulletList from '@tiptap/extension-bullet-list'
 
 import { useEdgeStore } from "@/lib/edgestore";
+import ListItem from '@tiptap/extension-list-item';
+import Paragraph from '@tiptap/extension-paragraph';
+import Document from '@tiptap/extension-document'
+
+
+
 
 interface TiptapProps {
   onContentChange: (content: string) => void;
@@ -26,20 +33,20 @@ interface TiptapProps {
 
 
 const Tiptap = ({
-   onContentChange, 
-   initialContent,
-   editable= true,
+  onContentChange, 
+  initialContent,
+  editable= true,
   }: TiptapProps) => {
   const { resolvedTheme } = useTheme();
   const {edgestore} = useEdgeStore();
 
-  const handelUpload = async (file: File) => {
-    const response = await edgestore.publicFiles.upload({
-        file
-    });
+    const handelUpload = async (file: File) => {
+      const response = await edgestore.publicFiles.upload({
+          file
+      });
 
-    return response.url;
-}
+      return response.url;
+  }
 
   const [inputValue, setInputValue] = useState('');
   
@@ -64,6 +71,18 @@ const Tiptap = ({
       Color,
       Typography,
       Underline,
+      BulletList.configure({
+        HTMLAttributes: {
+          class: 'tiptap',
+        },
+        itemTypeName: 'listItem',
+        keepMarks: true,
+        keepAttributes: true,
+      }),
+      ListItem,
+      Document,
+      Paragraph,
+      Text,
       Highlight.configure({ multicolor: true }),
       Text.configure({ key: 'customText' }), // Ensure 'text' extension has a unique key like 'customText'
       TaskList.configure({
@@ -103,16 +122,19 @@ const Tiptap = ({
   ];
 
   return (
-    <div className=' space-x-8 '>
+    <div className='  space-x-8 '>
 
-      <div className='m-4 space-x-4 flex '>
+      <div className='m-4 space-x-4 flex flex-col '>
+
         <span>color</span>
+
        <input
         type="color"
         onInput={handleInputChange}
         value={inputValue}
         className={"border-background rounded-md "}
         />
+
         <div className="text-forground">
           <button
             onClick={() => editor.chain().focus().unsetColor().run()}
@@ -120,10 +142,17 @@ const Tiptap = ({
             unsetColor
           </button>
         </div>
+
       </div>
 
-      <div>
+      <button
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+        className={editor.isActive('bulletList') ? 'is-active border-yellow-300' : 'bg-yellow-300'}
+      >
+        Bullet List
+      </button>
 
+      <div>
         {editor && (
           <BubbleMenu 
            className="bubble-menu "
@@ -174,7 +203,7 @@ const Tiptap = ({
                ${editor.isActive('strike') ? 'opacity-100' : 'opacity-60 hover:opacity-100'}`}
             >
               <span className="font-normal">
-                'code'
+              {'</>'}
               </span>
               <span className="tooltip-text">Mark as code - Ctrl+E</span>
             </button>
@@ -265,6 +294,7 @@ const Tiptap = ({
         />
 
       </div>
+      
     </div>
   );
 }

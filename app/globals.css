@@ -83,12 +83,12 @@
   }
   /* styles/globals.css */
 .tiptap > * + * {
-  @apply mt-3;
+  @apply mt-[0.75em];
 }
 
 .tiptap ul,
 .tiptap ol {
-  @apply px-4;
+  @apply p-[1rem];
 }
 
 .tiptap h1,

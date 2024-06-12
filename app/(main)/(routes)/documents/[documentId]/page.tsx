@@ -16,6 +16,7 @@ import { useMediaQuery } from 'usehooks-ts';
 import { Title } from '@/app/(main)/_components/title';
 
 import Tiptap from "@/components/tiptap";
+import { ChildDocumentGrid } from '@/components/document-list';
 
 
 
@@ -54,8 +55,8 @@ class ErrorBoundary extends Component<PropsWithChildren<{}>, { hasError: boolean
 const DocumentIdPage = ({
     params
 }: DocumentIdPageProps) => {
-//const Editor = useMemo(() => dynamic(() => import("@/editor"),{ssr: false}), []);
-const Tiptap = useMemo(() => dynamic(() => import("@/components/tiptap"),{ssr: false}), []);
+  //const Editor = useMemo(() => dynamic(() => import("@/editor"),{ssr: false}), []);
+  const Tiptap = useMemo(() => dynamic(() => import("@/components/tiptap"),{ssr: false}), []);
 
  // const Editor = dynamic(() => import("@/components/editor"),{ssr: false});
 
@@ -123,6 +124,16 @@ const Tiptap = useMemo(() => dynamic(() => import("@/components/tiptap"),{ssr: f
       <Cover url={document.coverImage} />
       <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
         <Toolbar initialData={document} />
+
+        {/* <p
+          className="text-xl text-muted-foreground"
+        >
+          Pages in your {document.title}&apos;s workspace
+         </p>
+        <ChildDocumentGrid
+        
+        /> */}
+
         <ErrorBoundary>
           {/* <Editor
             onChange={onChange}
@@ -132,6 +143,7 @@ const Tiptap = useMemo(() => dynamic(() => import("@/components/tiptap"),{ssr: f
           onContentChange={onContentChange}
           initialContent={document.content}
         />
+
         </ErrorBoundary>
       </div>
     </div>

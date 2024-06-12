@@ -41,7 +41,7 @@ const DocumentsPage = () => {
     };
     
     return (
-        <div className="h-full flex flex-col items-center space-y-4 dark:bg-[#1F1F1F]" >
+        <div className="h-full flex flex-col items-center space-y-4 dark:bg-[#1F1F1F] overflow-auto " >
             <div className=" z-[9999] sticky top-[0] w-full">
                 <nav className={`bg-secondary dark:bg-[#1F1F1F] px-3 py-2 w-full h-[77px] flex items-center justify-between`}>
                     <div className="flex w-full justify-start">
@@ -77,7 +77,7 @@ const DocumentsPage = () => {
                 className="hidden dark:block"
                 />
             </div>
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col justify-center items-center space-y-4">
                 <h2 className="text-lg font-medium">
                     Welcome to {user?.firstName}&apos;s Octopus
                 </h2>
