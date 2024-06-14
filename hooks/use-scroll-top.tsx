@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 
 export const useScrollTop = (threshold = 10) => {
     const [scrollDirection, setScrollDirection] = useState('up'); // default is up
-    
+    let lastScrollY = window.scrollY;
+
     useEffect(() => {
-        let lastScrollY = window.scrollY;
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
             if (currentScrollY > lastScrollY && currentScrollY > threshold) {
