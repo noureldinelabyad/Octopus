@@ -31,7 +31,7 @@ RUN echo $CONVEX_DEPLOY_KEY
 RUN echo $EDGE_STORE_ACCESS_KEY
 RUN echo $EDGE_STORE_SECRET_KEY
 RUN echo $NEXT_PUBLIC_CONVEX_URL
-RUN eco $Convex_Deployment_URL
+RUN echo $Convex_Deployment_URL
 
 # Build the application
 RUN npx convex deploy 
