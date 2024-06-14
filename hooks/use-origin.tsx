@@ -2,9 +2,9 @@ import { useEffect , useState} from "react";
 
 export const useOrigin = () => {
    const [mounted, setMounted] = useState(false);   // becouse will use the window object inside the useEffect and that may couse hydration error  wehne it comes to ssr so we need to make sure that the component is mounted before we can use the window object
-    const origin = typeof window !== "undefined" && window.location.origin ? window.location.origin : ""; // Determines the origin URL of the document.
-
-    useEffect(() => {
+   
+   useEffect(() => {
+        const origin = typeof window !== "undefined" && window.location.origin ? window.location.origin : ""; // Determines the origin URL of the document.
         setMounted(true);
     }, []);  // The empty dependency array means this effect runs only once after the initial render.
 
