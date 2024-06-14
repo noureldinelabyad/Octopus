@@ -30,6 +30,7 @@ jobs:
       with:
         push: true
         tags: noureldinelabyad/octopus:latest
+        build-args: CONVEX_DEPLOY_KEY=${{ secrets.CONVEX_DEPLOY_KEY }}
 
     - name: Azure Login
       uses: azure/login@v1
