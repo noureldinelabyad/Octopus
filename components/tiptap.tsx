@@ -101,7 +101,7 @@ const Tiptap = ({
     content: 
     initialContent && isValidJSON(initialContent)
     ? JSON.parse(initialContent) as []
-    : undefined || '<p>welcome to your World! 🌎️</p>',
+    : undefined || '<p>welcome to your World! write your THOUGHGTS!.. 🌎️</p>',
     onUpdate: ({ editor }) => {
       const jsonContent = editor.getJSON();
       onContentChange(JSON.stringify(jsonContent, null,2));
