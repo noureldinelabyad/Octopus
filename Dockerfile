@@ -15,7 +15,9 @@ COPY . .
 
 # Set the CONVEX_DEPLOY_KEY environment variable
 ARG CONVEX_DEPLOY_KEY
+ARG ConvexReactClient 
 ENV CONVEX_DEPLOY_KEY=$CONVEX_DEPLOY_KEY
+ENV ConvexReactClient = $ConvexReactClient 
 
 # Set the EDGE_STORE_ACCESS_KEY and EDGE_STORE_SECRET_KEY environment variables
 ARG EDGE_STORE_ACCESS_KEY
@@ -26,6 +28,7 @@ ENV EDGE_STORE_SECRET_KEY=$EDGE_STORE_SECRET_KEY
 RUN echo $CONVEX_DEPLOY_KEY
 RUN echo $EDGE_STORE_ACCESS_KEY
 RUN echo $EDGE_STORE_SECRET_KEY
+RUN echo $ConvexReactClient 
 
 # Build the application
 RUN npx convex deploy 
