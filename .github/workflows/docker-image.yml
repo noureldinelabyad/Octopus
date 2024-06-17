@@ -36,6 +36,7 @@ jobs:
          EDGE_STORE_ACCESS_KEY=${{ secrets.EDGE_STORE_ACCESS_KEY }}
          EDGE_STORE_SECRET_KEY=${{ secrets.EDGE_STORE_SECRET_KEY }}
          ConvexReactClient=${{ secrets.NEXT_PUBLIC_CONVEX_URL }}
+         Convex_Deployment_URL=${{ secrets.Convex_Deployment_URL }}
 
     - name: Azure Login
       uses: azure/login@v1
