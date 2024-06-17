@@ -6,7 +6,7 @@ on:
   push:
     branches: 
       [ main ]
-
+      
   pull_request:
     branches: 
       [ main ]
@@ -16,7 +16,7 @@ on:
     - '.github/workflows/octopus-AutoDeployTrigger-b24bee59-2761-43a4-8d85-eab250482286.yml'
 
   # Allow manual trigger 
- # workflow_dispatch:      
+  workflow_dispatch:      
 
 jobs:
   build-and-deploy:
@@ -38,6 +38,14 @@ jobs:
         run: |
           az account show
 
+      - name: Check CONVEX_DEPLOY_KEY
+        run: |
+          if [ -z "${{ secrets.CONVEX_DEPLOY_KEY }}" ]; then
+            echo "CONVEX_DEPLOY_KEY is not set."
+          else
+            echo "CONVEX_DEPLOY_KEY is set."
+          fi
+
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
@@ -47,5 +55,5 @@ jobs:
           registryPassword: ${{ secrets.OCTOPUS_REGISTRY_PASSWORD }}
           containerAppName: octopus
           resourceGroup: octopus
-          imageToBuild: noureldinelabyad/octopus:${{ github.sha }}
+          imageToBuild: noureldinelabyad/octopus:latest
        
