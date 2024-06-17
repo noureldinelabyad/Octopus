@@ -52,6 +52,6 @@ jobs:
       id: deploy
       uses: azure/webapps-deploy@v2
       with:
-        app-name: octopus
+        app-name: myoctopus
         slot-name: production
         images: noureldinelabyad/octopus:latest
