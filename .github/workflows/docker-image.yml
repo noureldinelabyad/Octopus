@@ -62,7 +62,6 @@ jobs:
           containerAppName: octopus
           resourceGroup: octopus
           imageToBuild: noureldinelabyad/octopus:${{ github.sha }}
-          dockerfilePath: Dockerfile
 
   Deploy:
     needs: 
