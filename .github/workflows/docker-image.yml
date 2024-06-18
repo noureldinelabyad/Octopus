@@ -39,6 +39,10 @@ jobs:
          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
          CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }}
 
+  Deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
     - name: Azure Login
       uses: azure/login@v1
       with:
@@ -47,11 +51,6 @@ jobs:
     - name: Verify Azure Login
       run: |
         az account show
-
-  Deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
     - name: Deploy to Azure Web App
       id: deploy
       uses: azure/webapps-deploy@v2
