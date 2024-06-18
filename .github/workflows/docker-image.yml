@@ -30,7 +30,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: noureldinelabyad/octopus:latest
+        tags: noureldinelabyad/octopus:${{ github.sha }}
         build-args: |
          CONVEX_DEPLOY_KEY=${{ secrets.CONVEX_DEPLOY_KEY }}
          EDGE_STORE_ACCESS_KEY=${{ secrets.EDGE_STORE_ACCESS_KEY }}
