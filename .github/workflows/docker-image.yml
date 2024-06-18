@@ -65,6 +65,14 @@ jobs:
       - Deploy
     runs-on: ubuntu-latest
     steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+      - name: Verify Azure Login
+        run: az account show
+
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
