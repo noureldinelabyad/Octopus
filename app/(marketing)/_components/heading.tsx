@@ -14,7 +14,7 @@ export const Heading = () => {
     return (
         <div className="max-w-3xl space-y-4" >
             <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold">
-                Your 8 Arms Planer, Welcom to <span
+                Your 8 Arms Brain, Welcom to <span
                  className="underline" style={{ color: '#BB007F' }} >Octopus</span>
             </h1>
             <h3  className="text-base sm:text-l md:text-xl font-medium">
