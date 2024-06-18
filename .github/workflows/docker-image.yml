@@ -48,6 +48,10 @@ jobs:
       run: |
         az account show
 
+  Deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
     - name: Deploy to Azure Web App
       id: deploy
       uses: azure/webapps-deploy@v2

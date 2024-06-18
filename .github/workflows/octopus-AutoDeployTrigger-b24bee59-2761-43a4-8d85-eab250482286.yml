@@ -55,5 +55,6 @@ jobs:
           registryPassword: ${{ secrets.OCTOPUS_REGISTRY_PASSWORD }}
           containerAppName: octopus
           resourceGroup: octopus
-          imageToBuild: noureldinelabyad/octopus:latest
+          imageToBuild: noureldinelabyad/octopus:${{ github.sha }}
+          dockerfilePath: Dockerfile
        
