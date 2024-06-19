@@ -124,7 +124,7 @@ const Tiptap = ({
   return (
     <div className='  space-x-8 '>
 
-      <div className='m-4 space-x-4 flex flex-col '>
+      {/* <div className='m-4 space-x-4 flex flex-col '>
 
         <span>color</span>
 
@@ -150,7 +150,7 @@ const Tiptap = ({
         className={editor.isActive('bulletList') ? 'is-active border-yellow-300' : 'bg-yellow-300'}
       >
         Bullet List
-      </button>
+      </button> */}
 
       <div>
         {editor && (
